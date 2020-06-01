@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1590989125386">
+<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1590990813523">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://hsiaopan.github.io">
-        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1590989125386" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1590990813523" alt="" width="32px" height="32px">
       </a>
       <a href="https://hsiaopan.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -111,7 +111,8 @@
 <p>本数据中一个<em>职位ID</em>对应一个<em>职位</em>，检查<em>职位ID</em>列里的<em>职位ID</em>是否有重复，如果有则将重复值删除<br>
 <code>条件格式</code>&gt;<code>突出显示单元格规则</code>&gt;<code>重复值</code><br>
 <img src="https://hsiaopan.github.io/post-images/1590989050028.jpg" alt="" loading="lazy"><br>
-<code>数据</code>&gt;<code>删除重复值</code>&gt;<code>选择列</code>，</p>
+<code>数据</code>&gt;<code>删除重复值</code>&gt;<code>选择列</code>，<br>
+<img src="https://hsiaopan.github.io/post-images/1590990563550.jpg" alt="" loading="lazy"></p>
 <h4 id="3处理缺省值">3.处理缺省值</h4>
 <p>检查每一列的值是否一致</p>
 <p>选中所在列：<code>开始</code>&gt;<code>查找与选择</code>&gt;<code>定位条件</code>&gt;<code>空值</code>&gt;输入值<br>
@@ -124,12 +125,17 @@
 </ul>
 <h4 id="4一致化处理">4.一致化处理</h4>
 <p>把所有的数据处理成容易使用公式或数据透视表的形式</p>
-<p>数据表中 <code>公司所属领域</code> 这一列，有些公司从属于一个行业，有些公司则从属于两个行业，此时需要将这两个行业分割开来。使用 <code>分列</code>。</p>
-<p>数据表中 <code>薪水</code> 这一列是以区间方式表示的，把最低薪水和最高薪水分隔开来以便使用图表查看薪水情况<br>
+<p>数据表中 <code>公司所属领域</code> 这一列，有些公司从属于一个行业，有些公司则从属于两个行业，此时需要将这两个行业分割开来。使用 <code>分列</code>。<br>
+<img src="https://hsiaopan.github.io/post-images/1590990673966.jpg" alt="" loading="lazy"><br>
+<img src="https://hsiaopan.github.io/post-images/1590990692337.jpg" alt="" loading="lazy"><br>
+数据表中 <code>薪水</code> 这一列是以区间方式表示的，把最低薪水和最高薪水分隔开来以便使用图表查看薪水情况<br>
 此处涉及到对表格字符串截取的操作，通常使用函数<strong>LEFT/RIGHT/MID</strong>截取，用函数<strong>FIND</strong>和<strong>LEN</strong>进行定位。<br>
 观察发现 <code>薪水</code>列中数据有出现大小写<strong>K/k</strong>混用情况，先将他们统一替换成小写<strong>k</strong><br>
-插入两列，分别提取最低薪水和最高薪水。</p>
-<p>因 <code>薪水</code> 中一些单元格内是“xx以上”或“xx以下”，不能直接套用复合函数，我们可以先对单元格进行判断，不是以 “<strong>k</strong>”结束的单元格，最高薪水暂定与最低薪水相同。</p>
+<img src="https://hsiaopan.github.io/post-images/1590990737454.jpg" alt="" loading="lazy"><br>
+插入两列，分别提取最低薪水和最高薪水。<br>
+<img src="https://hsiaopan.github.io/post-images/1590990780347.jpg" alt="" loading="lazy"><br>
+因 <code>薪水</code> 中一些单元格内是“xx以上”或“xx以下”，不能直接套用复合函数，我们可以先对单元格进行判断，不是以 “<strong>k</strong>”结束的单元格，最高薪水暂定与最低薪水相同。<br>
+<img src="https://hsiaopan.github.io/post-images/1590990794957.jpg" alt="" loading="lazy"></p>
 
           </div>
         </div>
