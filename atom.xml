@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-01T09:36:56.685Z</updated>
+    <updated>2020-06-01T09:42:21.405Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -135,6 +135,27 @@
 <li>随着经验累积，薪酬不断提升，3-5年工作经验的薪水已接近1-3年经验的两倍，10年以上经验的虽超过3倍，但该阶段需求很小，数据量小，难以反映真实情况</li>
 <li>从深圳的数据分析师需求来看，因为职业较新，主要工作机会给予集中在1-5年有经验的人身上</li>
 </ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[关于]]></title>
+        <id>https://hsiaopan.github.io/post/about/</id>
+        <link href="https://hsiaopan.github.io/post/about/">
+        </link>
+        <updated>2019-05-01T11:09:48.000Z</updated>
+        <content type="html"><![CDATA[<blockquote>
+<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
+</blockquote>
+<h2 id="关于本站">🏠 关于本站</h2>
+<p>本站主要作为我的个人成长记录，从开始写那一刻开始记录。</p>
+<h2 id="博主是谁">👨‍💻 博主是谁</h2>
+<p>华中地区某普通211毕业的农学背景男。<br>
+大学期间辅修过建筑学，未完成学业。<br>
+研究生在某国内头部大学师从某行业国内领军人物，但因种种原因未完成学业。</p>
+<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
+<p>没有固定兴趣爱好。可以打游戏，可以撸代码。</p>
+<h2 id="联系我呀">📬 联系我呀</h2>
+<p>暂时不了。</p>
 ]]></content>
     </entry>
 </feed>
