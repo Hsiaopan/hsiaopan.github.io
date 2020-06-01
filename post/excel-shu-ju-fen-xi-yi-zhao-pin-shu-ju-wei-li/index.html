@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1590990813523">
+<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1591002758091">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://hsiaopan.github.io">
-        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1590990813523" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1591002758091" alt="" width="32px" height="32px">
       </a>
       <a href="https://hsiaopan.github.io">
         <h1 class="site-title">Gridea</h1>
@@ -93,49 +93,120 @@
           </div>
           <div class="post-content">
             <h2 id="前言">前言</h2>
-<p>明确总体目的：以招聘网站的数据分析师岗位的招聘信息为数据基础，探索不同城市数据分析师需求特点以及薪资情况。</p>
+<hr>
+<p><em>明确总体目的</em>：<br>
+以某招聘网站的数据分析师岗位的招聘信息为数据基础，探索不同城市数据分析师需求特点以及薪资情况。</p>
 <h2 id="分析前准备">分析前准备</h2>
-<p>在做数据分析之前，需要对整体数据做一个初步认识，比如</p>
-<h3 id="原始数据解读">原始数据解读</h3>
-<p>数据类型：字符串、数值、逻辑</p>
-<h3 id="明确分析问题">明确分析问题</h3>
-<p>1.哪些城市对数据分析师的需求量比较大？<br>
-2.数据分析师在不同城市的平均薪资对比<br>
-3.学历、工作年限对薪资的影响</p>
-<h3 id="数据处理">数据处理</h3>
-<p>数据清洗，</p>
-<h4 id="1理解数据选择重点分析对象">1.理解数据，选择重点分析对象</h4>
-<p>原始数据中包含很多列数据，有些数据不是重点分析对象，可将其隐藏。<br>
-<img src="https://hsiaopan.github.io/post-images/1590989122693.jpg" alt="" loading="lazy"></p>
-<h4 id="2删除重复值">2.删除重复值</h4>
-<p>本数据中一个<em>职位ID</em>对应一个<em>职位</em>，检查<em>职位ID</em>列里的<em>职位ID</em>是否有重复，如果有则将重复值删除<br>
-<code>条件格式</code>&gt;<code>突出显示单元格规则</code>&gt;<code>重复值</code><br>
-<img src="https://hsiaopan.github.io/post-images/1590989050028.jpg" alt="" loading="lazy"><br>
-<code>数据</code>&gt;<code>删除重复值</code>&gt;<code>选择列</code>，<br>
-<img src="https://hsiaopan.github.io/post-images/1590990563550.jpg" alt="" loading="lazy"></p>
-<h4 id="3处理缺省值">3.处理缺省值</h4>
-<p>检查每一列的值是否一致</p>
-<p>选中所在列：<code>开始</code>&gt;<code>查找与选择</code>&gt;<code>定位条件</code>&gt;<code>空值</code>&gt;输入值<br>
-缺省值处理的常用方法：</p>
+<p>在做数据分析之前，需要对整体数据做一个初步认识，各列数据有什么意义，哪些列是分析必用，哪些是可以暂时有用，哪些是明确无用的。<br>
+<img src="https://hsiaopan.github.io/post-images/1591000582031.jpg" alt="" loading="lazy"></p>
+<ul>
+<li><code>城市</code>：因为需要分析不同城市的情况，还会做出对比，因此 <code>城市</code> 是分析必用的</li>
+<li><code>职位ID</code>：在数据无重复情况下，职位ID应当是每个招聘岗位的唯一ID，是必须用到的</li>
+<li><code>职位名称</code>：此表中职位名称并没有一个统一，还有些非数据分析师岗位名称，后面处理数据时需要用到</li>
+<li><code>薪水</code>：必用的</li>
+<li><code>工作年限要求</code>：必用的<br>
+以上这些列是此次分析不用用到的列数据。<br>
+暂时用不到的列，诸如 <code>公司ID</code> 、<code>公司大小</code> 、<code>职能所属</code> 、<code>教育要求</code> 、<code>公司所属领域</code> ，此次不做分析（如从其他角度分析，则依然有用）<br>
+明确用不到的列，如 <code>公司全名</code> 、<code>公司简称</code> 、<code>公司所在商区</code> 、<code>职位福利</code></li>
+</ul>
+<p>此外，清楚各列数据的数据类型，如字符串、数值等</p>
+<h2 id="明确分析问题">明确分析问题</h2>
+<ul>
+<li>不同城市对数据分析师的需求量比较</li>
+<li>数据分析师在不同城市的平均薪资对比</li>
+<li>工作年限对薪资影响</li>
+<li>不同工作年限的需求量比较</li>
+</ul>
+<h2 id="数据处理">数据处理</h2>
+<p>数据清洗工作是进行数据分析前所必须完成的工作，数据的整洁直接影响数据分析结果的呈现。</p>
+<h3 id="1理解数据选择重点分析对象">1.理解数据，选择重点分析对象</h3>
+<p>在分析前准备中提到，原始数据中包含很多列数据，有些数据不是重点分析对象，可将其隐藏。<br>
+<img src="https://hsiaopan.github.io/post-images/1590989122693.jpg" alt="" loading="lazy"><br>
+<em>隐藏前</em><br>
+<img src="https://hsiaopan.github.io/post-images/1591002416200.jpg" alt="" loading="lazy"><br>
+<em>隐藏后</em></p>
+<h3 id="2删除重复值">2.删除重复值</h3>
+<p>本数据中一个 <code>职位ID</code> 对应一个<strong>职位</strong>，检查 <code>职位ID</code> 列是否有重复，如果有则将重复值删除<br>
+具体操作：</p>
+<ul>
+<li><code>条件格式</code>&gt;<code>突出显示单元格规则</code>&gt;<code>重复值</code><br>
+<img src="https://hsiaopan.github.io/post-images/1590989050028.jpg" alt="" loading="lazy"></li>
+<li><code>数据</code>&gt;<code>删除重复值</code>&gt;<code>选择列</code>，选择 <code>职位ID</code> 列<br>
+<img src="https://hsiaopan.github.io/post-images/1590990563550.jpg" alt="" loading="lazy"></li>
+</ul>
+<h3 id="3处理缺失值">3.处理缺失值</h3>
+<p>检查每一列的值是否一致，查看是否存在缺失值<br>
+选中所在列：<code>开始</code>&gt;<code>查找与选择</code>&gt;<code>定位条件</code>&gt;<code>空值</code>&gt;输入值</p>
+<blockquote>
+<p>缺省值处理的常用方法：</p>
 <ul>
 <li>通过人工手动补全</li>
 <li>删除缺省值</li>
 <li>用平均值替代缺省值</li>
 <li>用统计模型计算出的值去代替缺省值</li>
 </ul>
-<h4 id="4一致化处理">4.一致化处理</h4>
+</blockquote>
+<h3 id="4一致化处理">4.一致化处理</h3>
 <p>把所有的数据处理成容易使用公式或数据透视表的形式</p>
 <p>数据表中 <code>公司所属领域</code> 这一列，有些公司从属于一个行业，有些公司则从属于两个行业，此时需要将这两个行业分割开来。使用 <code>分列</code>。<br>
 <img src="https://hsiaopan.github.io/post-images/1590990673966.jpg" alt="" loading="lazy"><br>
-<img src="https://hsiaopan.github.io/post-images/1590990692337.jpg" alt="" loading="lazy"><br>
-数据表中 <code>薪水</code> 这一列是以区间方式表示的，把最低薪水和最高薪水分隔开来以便使用图表查看薪水情况<br>
+<img src="https://hsiaopan.github.io/post-images/1590990692337.jpg" alt="" loading="lazy"></p>
+<p>数据表中 <code>薪水</code> 这一列是以区间方式表示的，把最低薪水和最高薪水分隔开来以便使用图表查看薪水情况<br>
 此处涉及到对表格字符串截取的操作，通常使用函数<strong>LEFT/RIGHT/MID</strong>截取，用函数<strong>FIND</strong>和<strong>LEN</strong>进行定位。<br>
 观察发现 <code>薪水</code>列中数据有出现大小写<strong>K/k</strong>混用情况，先将他们统一替换成小写<strong>k</strong><br>
-<img src="https://hsiaopan.github.io/post-images/1590990737454.jpg" alt="" loading="lazy"><br>
-插入两列，分别提取最低薪水和最高薪水。<br>
+<img src="https://hsiaopan.github.io/post-images/1590990737454.jpg" alt="" loading="lazy"></p>
+<p>插入两列，分别提取最低薪水和最高薪水。<br>
 <img src="https://hsiaopan.github.io/post-images/1590990780347.jpg" alt="" loading="lazy"><br>
 因 <code>薪水</code> 中一些单元格内是“xx以上”或“xx以下”，不能直接套用复合函数，我们可以先对单元格进行判断，不是以 “<strong>k</strong>”结束的单元格，最高薪水暂定与最低薪水相同。<br>
 <img src="https://hsiaopan.github.io/post-images/1590990794957.jpg" alt="" loading="lazy"></p>
+<p>经过单元格计算得到的最高薪水和最低薪水是文本型数据，无法正常按照数值进行排序，需要将结果复制出来，新建列表。<br>
+流程如下：<br>
+<code>开始</code>&gt;<code>选择性粘贴</code>&gt;勾选<code>值</code>和<code>添加</code>，然后补全列表名<br>
+<img src="https://hsiaopan.github.io/post-images/1590991790591.jpg" alt="" loading="lazy"></p>
+<p>可实现正常排序<br>
+<img src="https://hsiaopan.github.io/post-images/1590991804223.jpg" alt="" loading="lazy"></p>
+<p><code>职位名称</code> 列内职位名称种类非常多，有些甚至不是数据分析师，需要先初步判断下那些需要留存。<br>
+<img src="https://hsiaopan.github.io/post-images/1590992307204.jpg" alt="" loading="lazy"><br>
+可以提取含有“数据分析”、“分析师”、“数据科学”、“数据运营”的行。<br>
+新建一列表名“数据分析师”，使用函数<strong>IF/COUNT/FIND</strong>，如果单元格中含有“分析”、“数据科学”、“数据运营”，则返回“是”<br>
+<img src="https://hsiaopan.github.io/post-images/1590992419601.jpg" alt="" loading="lazy"></p>
+<p>筛选 <code>数据分析师</code> 列中为“<strong>是</strong>”的所有行，，完成对数据分析师列数据的统一。<br>
+复制整个表数据作为最终数据<br>
+<img src="https://hsiaopan.github.io/post-images/1590992035301.jpg" alt="" loading="lazy"></p>
+<h2 id="构建模型">构建模型</h2>
+<p>数据经过清洗之后，需要构建一套模型，以实现分析这些数据的目的。<br>
+如前面提到，想要知道不同城市的数据分析师招聘岗位对不同工作年限的人是怎样的需求情况，利用数据透视功能，得到以下数据透视表：<br>
+<img src="https://hsiaopan.github.io/post-images/1590992146789.jpg" alt="" loading="lazy"><br>
+<img src="https://hsiaopan.github.io/post-images/1590992153034.jpg" alt="" loading="lazy"><br>
+想要获取不同工作年限的岗位提供的薪资水平情况，可得到以下数据透视表：<br>
+<img src="https://hsiaopan.github.io/post-images/1590993620998.jpg" alt="" loading="lazy"><br>
+想要获取不同城市的平均薪资水平，可得以下数据透视表：<br>
+<img src="https://hsiaopan.github.io/post-images/1590993667780.jpg" alt="" loading="lazy"></p>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1590999101248.jpg" alt="" loading="lazy"></figure>
+<p>利用“<strong>描述性统计</strong>”功能可以堆平均薪资进行分析，<br>
+<code>数据</code>&gt;<code>数据分析</code>&gt;<code>描述统计</code><br>
+<img src="https://hsiaopan.github.io/post-images/1590993915177.jpg" alt="" loading="lazy"><br>
+描述性统计结果：<br>
+<img src="https://hsiaopan.github.io/post-images/1590992683050.jpg" alt="" loading="lazy"></p>
+<h2 id="数据可视化">数据可视化</h2>
+<p>根据前面生成的数据透视表，可作出以下可视化图标：</p>
+<ul>
+<li>主要城市数据分析师需求情况<br>
+<img src="https://hsiaopan.github.io/post-images/1590999009906.jpg" alt="" loading="lazy"></li>
+<li>各城市数据分析师平均薪水情况<br>
+<img src="https://hsiaopan.github.io/post-images/1590999036118.jpg" alt="" loading="lazy"></li>
+<li>不同工作年限的平均薪水对比<br>
+<img src="https://hsiaopan.github.io/post-images/1590999047688.jpg" alt="" loading="lazy"></li>
+<li>深圳市不同工作年限数据分析师的平均薪水和需求对比<br>
+<img src="https://hsiaopan.github.io/post-images/1590999064895.jpg" alt="" loading="lazy"></li>
+</ul>
+<h2 id="结论">结论</h2>
+<ul>
+<li>从需求情况可以看出，数据分析师的工作机会主要集中在一线城市，北京居首；新一线城市中也有一些机会，接近一线城市，如杭州7.17%与广州8.42%差距已不大</li>
+<li>从各城市平均薪水表可以看到，该岗位在深圳的薪水最高，其次是北京、上海</li>
+<li>随着经验累积，薪酬不断提升，3-5年工作经验的薪水已接近1-3年经验的两倍，10年以上经验的虽超过3倍，但该阶段需求很小，数据量小，难以反映真实情况</li>
+<li>从深圳的数据分析师需求来看，因为职业较新，主要工作机会给予集中在1-5年有经验的人身上</li>
+</ul>
 
           </div>
         </div>
