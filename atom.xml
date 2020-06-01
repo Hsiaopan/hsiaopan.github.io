@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Gridea</title>
-    <updated>2020-05-31T14:41:08.094Z</updated>
+    <updated>2020-06-01T05:25:45.758Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -16,23 +16,44 @@
         <link href="https://hsiaopan.github.io/post/excel-shu-ju-fen-xi-yi-zhao-pin-shu-ju-wei-li/">
         </link>
         <updated>2020-05-31T14:04:45.000Z</updated>
-        <content type="html"><![CDATA[<p>##前言<br>
-明确总体目的：以招聘网站的数据分析师岗位的招聘信息为数据基础，探索不同城市数据分析师需求特点以及薪资情况。</p>
-<p>##分析前准备<br>
-在做数据分析之前，需要对整体数据做一个初步认识，比如<br>
-###原始数据解读<br>
-数据类型：字符串、数值、逻辑<br>
-###明确分析问题<br>
-1.哪些城市对数据分析师的需求量比较大？<br>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>明确总体目的：以招聘网站的数据分析师岗位的招聘信息为数据基础，探索不同城市数据分析师需求特点以及薪资情况。</p>
+<h2 id="分析前准备">分析前准备</h2>
+<p>在做数据分析之前，需要对整体数据做一个初步认识，比如</p>
+<h3 id="原始数据解读">原始数据解读</h3>
+<p>数据类型：字符串、数值、逻辑</p>
+<h3 id="明确分析问题">明确分析问题</h3>
+<p>1.哪些城市对数据分析师的需求量比较大？<br>
 2.数据分析师在不同城市的平均薪资对比<br>
-3.学历、工作年限对薪资的影响<br>
-###数据处理<br>
-数据清洗，<br>
-####1.理解数据，选择重点分析对象<br>
-原始数据中包含很多列数据，有些数据不是重点分析对象，可将其隐藏</p>
-<p>####2.删除重复值、处理缺省值<br>
-本数据中一个<em>职位ID</em>对应一个<em>职位</em>，检查<em>职位ID</em>列里的<em>职位ID</em>是否有重复，如果有则将重复值删除<br>
+3.学历、工作年限对薪资的影响</p>
+<h3 id="数据处理">数据处理</h3>
+<p>数据清洗，</p>
+<h4 id="1理解数据选择重点分析对象">1.理解数据，选择重点分析对象</h4>
+<p>原始数据中包含很多列数据，有些数据不是重点分析对象，可将其隐藏。<br>
+<img src="https://hsiaopan.github.io/post-images/1590989122693.jpg" alt="" loading="lazy"></p>
+<h4 id="2删除重复值">2.删除重复值</h4>
+<p>本数据中一个<em>职位ID</em>对应一个<em>职位</em>，检查<em>职位ID</em>列里的<em>职位ID</em>是否有重复，如果有则将重复值删除<br>
+<code>条件格式</code>&gt;<code>突出显示单元格规则</code>&gt;<code>重复值</code><br>
+<img src="https://hsiaopan.github.io/post-images/1590989050028.jpg" alt="" loading="lazy"><br>
 <code>数据</code>&gt;<code>删除重复值</code>&gt;<code>选择列</code>，</p>
+<h4 id="3处理缺省值">3.处理缺省值</h4>
+<p>检查每一列的值是否一致</p>
+<p>选中所在列：<code>开始</code>&gt;<code>查找与选择</code>&gt;<code>定位条件</code>&gt;<code>空值</code>&gt;输入值<br>
+缺省值处理的常用方法：</p>
+<ul>
+<li>通过人工手动补全</li>
+<li>删除缺省值</li>
+<li>用平均值替代缺省值</li>
+<li>用统计模型计算出的值去代替缺省值</li>
+</ul>
+<h4 id="4一致化处理">4.一致化处理</h4>
+<p>把所有的数据处理成容易使用公式或数据透视表的形式</p>
+<p>数据表中 <code>公司所属领域</code> 这一列，有些公司从属于一个行业，有些公司则从属于两个行业，此时需要将这两个行业分割开来。使用 <code>分列</code>。</p>
+<p>数据表中 <code>薪水</code> 这一列是以区间方式表示的，把最低薪水和最高薪水分隔开来以便使用图表查看薪水情况<br>
+此处涉及到对表格字符串截取的操作，通常使用函数<strong>LEFT/RIGHT/MID</strong>截取，用函数<strong>FIND</strong>和<strong>LEN</strong>进行定位。<br>
+观察发现 <code>薪水</code>列中数据有出现大小写<strong>K/k</strong>混用情况，先将他们统一替换成小写<strong>k</strong><br>
+插入两列，分别提取最低薪水和最高薪水。</p>
+<p>因 <code>薪水</code> 中一些单元格内是“xx以上”或“xx以下”，不能直接套用复合函数，我们可以先对单元格进行判断，不是以 “<strong>k</strong>”结束的单元格，最高薪水暂定与最低薪水相同。</p>
 ]]></content>
     </entry>
     <entry>
