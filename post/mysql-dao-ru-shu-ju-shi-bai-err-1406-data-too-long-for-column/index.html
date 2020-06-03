@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>关于 | Panalyz</title>
+<title>MySQL导入数据 Data too long for column | Panalyz</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -86,30 +86,72 @@
       <div class="content-container">
         <div class="post-detail">
           
-          <h2 class="post-title">关于</h2>
+          <h2 class="post-title">MySQL导入数据 Data too long for column</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2019-05-01</span>
+            <span><i class="icon-calendar-outline"></i> 2020-06-03</span>
             
           </div>
           <div class="post-content">
-            <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<p>本站主要作为我的个人成长记录，从开始写那一刻开始记录。</p>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<p>华中地区某普通211毕业的农学背景男。<br>
-大学期间辅修过建筑学，未完成学业。<br>
-研究生在某国内头部大学师从某行业国内领军人物，但因种种原因未完成学业。</p>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<p>没有固定兴趣爱好。可以打游戏，可以撸代码。</p>
-<h2 id="联系我呀">📬 联系我呀</h2>
-<p>暂时不了。</p>
+            <p>太长不看版本：Terminal连接进MySQL之后 <code>set @@global.sql_mode='';</code>，解忧。</p>
+<!-- more -->
+<p>在Navicat中给MySQL导入数据时，遇上失败，细查报错原因，发现有这么一行提示：<br>
+<code>[ERR] 1406 - Data too long for column 'property' at row 2</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591179692585.jpg" alt="" loading="lazy"></p>
+<p>嗯...太长，怎么办？🤔<br>
+老样子，把关键句子拷贝出来放搜索引擎里检索一下...</p>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1591180272932.jpg" alt="" loading="lazy"></figure>
+<p>出现相同问题的人还挺多，搜索结果都有60万条...<br>
+查看几个结果之后，发现解决办法大同小异，核心思路是一样的：</p>
+<p><strong>修改sql_mode，关闭STRICT模式</strong></p>
+<p>开始修改之前，先查看下目前启用的什么模式</p>
+<pre><code>SHOW VARIABLES LIKE 'sql_mode'; 
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://hsiaopan.github.io/post-images/1591181903181.jpg" alt="" loading="lazy"></figure>
+<p>看到了<code>STRICT_TRANS_TABLES</code>（<em><strong>存储引擎启用严格模式，非法数据值被拒绝</strong></em>），按照之前找到的方法，这时候我只要关闭这个模式就OK了😬</p>
+<pre><code>SET sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://hsiaopan.github.io/post-images/1591182228887.jpg" alt="" loading="lazy"></figure>
+<p>查看下当前什么模式<br>
+<code>SHOW VARIABLES LIKE 'sql_mode';</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591182315250.jpg" alt="" loading="lazy"></p>
+<p>看起来没问题😬<br>
+接着重新导入数据再看<br>
+<img src="https://hsiaopan.github.io/post-images/1591182527007.jpg" alt="" loading="lazy"></p>
+<p>😐没成功！？</p>
+<p>我陷入了沉思....</p>
+<p>换个地方试试？</p>
+<p>我打开<strong>Hyper</strong>（<em><strong>一款Terminal工具</strong></em>）</p>
+<pre><code>mysql -u root -p
+</code></pre>
+<pre><code>show variables like 'sql_mode';
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://hsiaopan.github.io/post-images/1591182949678.jpg" alt="" loading="lazy"></figure>
+<p>wtf？😭<br>
+果然之前操作的没有成功，才导致导入数据失败！</p>
+<p>马不停蹄</p>
+<pre><code>set sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<p>再次检查一下模式是否设置成功</p>
+<figure data-type="image" tabindex="5"><img src="https://hsiaopan.github.io/post-images/1591183197489.jpg" alt="" loading="lazy"></figure>
+<p>ok！返回去重新导入数据，还是失败，模式修改不是全局的缘故？🤔<br>
+重新设置模式</p>
+<pre><code>set @@global.sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://hsiaopan.github.io/post-images/1591183518960.jpg" alt="" loading="lazy"></figure>
+<p>终于成功了😭</p>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://hsiaopan.github.io/post/Algorithm_of_Sorting_by_Python/">
+              <h3 class="post-title">
+                下一篇：Python实现10大排序算法
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       

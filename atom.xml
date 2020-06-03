@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-01T13:39:35.090Z</updated>
+    <updated>2020-06-03T11:30:39.194Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -10,6 +10,63 @@
     <logo>https://hsiaopan.github.io/images/avatar.png</logo>
     <icon>https://hsiaopan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Panalyz</rights>
+    <entry>
+        <title type="html"><![CDATA[MySQL导入数据 Data too long for column]]></title>
+        <id>https://hsiaopan.github.io/post/mysql-dao-ru-shu-ju-shi-bai-err-1406-data-too-long-for-column/</id>
+        <link href="https://hsiaopan.github.io/post/mysql-dao-ru-shu-ju-shi-bai-err-1406-data-too-long-for-column/">
+        </link>
+        <updated>2020-06-03T10:14:36.000Z</updated>
+        <summary type="html"><![CDATA[<p>太长不看版本：Terminal连接进MySQL之后 <code>set @@global.sql_mode='';</code>，解忧。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>太长不看版本：Terminal连接进MySQL之后 <code>set @@global.sql_mode='';</code>，解忧。</p>
+<!-- more -->
+<p>在Navicat中给MySQL导入数据时，遇上失败，细查报错原因，发现有这么一行提示：<br>
+<code>[ERR] 1406 - Data too long for column 'property' at row 2</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591179692585.jpg" alt="" loading="lazy"></p>
+<p>嗯...太长，怎么办？🤔<br>
+老样子，把关键句子拷贝出来放搜索引擎里检索一下...</p>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1591180272932.jpg" alt="" loading="lazy"></figure>
+<p>出现相同问题的人还挺多，搜索结果都有60万条...<br>
+查看几个结果之后，发现解决办法大同小异，核心思路是一样的：</p>
+<p><strong>修改sql_mode，关闭STRICT模式</strong></p>
+<p>开始修改之前，先查看下目前启用的什么模式</p>
+<pre><code>SHOW VARIABLES LIKE 'sql_mode'; 
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://hsiaopan.github.io/post-images/1591181903181.jpg" alt="" loading="lazy"></figure>
+<p>看到了<code>STRICT_TRANS_TABLES</code>（<em><strong>存储引擎启用严格模式，非法数据值被拒绝</strong></em>），按照之前找到的方法，这时候我只要关闭这个模式就OK了😬</p>
+<pre><code>SET sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://hsiaopan.github.io/post-images/1591182228887.jpg" alt="" loading="lazy"></figure>
+<p>查看下当前什么模式<br>
+<code>SHOW VARIABLES LIKE 'sql_mode';</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591182315250.jpg" alt="" loading="lazy"></p>
+<p>看起来没问题😬<br>
+接着重新导入数据再看<br>
+<img src="https://hsiaopan.github.io/post-images/1591182527007.jpg" alt="" loading="lazy"></p>
+<p>😐没成功！？</p>
+<p>我陷入了沉思....</p>
+<p>换个地方试试？</p>
+<p>我打开<strong>Hyper</strong>（<em><strong>一款Terminal工具</strong></em>）</p>
+<pre><code>mysql -u root -p
+</code></pre>
+<pre><code>show variables like 'sql_mode';
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://hsiaopan.github.io/post-images/1591182949678.jpg" alt="" loading="lazy"></figure>
+<p>wtf？😭<br>
+果然之前操作的没有成功，才导致导入数据失败！</p>
+<p>马不停蹄</p>
+<pre><code>set sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<p>再次检查一下模式是否设置成功</p>
+<figure data-type="image" tabindex="5"><img src="https://hsiaopan.github.io/post-images/1591183197489.jpg" alt="" loading="lazy"></figure>
+<p>ok！返回去重新导入数据，还是失败，模式修改不是全局的缘故？🤔<br>
+重新设置模式</p>
+<pre><code>set @@global.sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://hsiaopan.github.io/post-images/1591183518960.jpg" alt="" loading="lazy"></figure>
+<p>终于成功了😭</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python实现10大排序算法]]></title>
         <id>https://hsiaopan.github.io/post/Algorithm_of_Sorting_by_Python/</id>
