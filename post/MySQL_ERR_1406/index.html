@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>MySQL导入数据 Data too long for column | Panalyz</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1591184274500">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://hsiaopan.github.io">
+        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1591184274500" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://hsiaopan.github.io">
+        <h1 class="site-title">Panalyz</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://hsiaopan.github.io/post-images/MySQL_ERR_1406.jpg')">
+            </div>
+          
+          <h2 class="post-title">MySQL导入数据 Data too long for column</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-05-20</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://hsiaopan.github.io/tag/CXmgL6ibh/">
+                    MySQL
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://hsiaopan.github.io/tag/T_DxeXmnwh/">
+                    ERR
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>太长不看版本：Terminal连接进MySQL之后 <code>set @@global.sql_mode='';</code>，解忧。</p>
+<!-- more -->
+<p>在Navicat中给MySQL导入数据时，遇上失败，细查报错原因，发现有这么一行提示：<br>
+<code>[ERR] 1406 - Data too long for column 'property' at row 2</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591179692585.jpg" alt="" loading="lazy"></p>
+<p>嗯...太长，怎么办？🤔<br>
+老样子，把关键句子拷贝出来放搜索引擎里检索一下...</p>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1591180272932.jpg" alt="" loading="lazy"></figure>
+<p>出现相同问题的人还挺多，搜索结果都有60万条...<br>
+查看几个结果之后，发现解决办法大同小异，核心思路是一样的：</p>
+<p><strong>修改sql_mode，关闭STRICT模式</strong></p>
+<p>开始修改之前，先查看下目前启用的什么模式</p>
+<pre><code>SHOW VARIABLES LIKE 'sql_mode'; 
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://hsiaopan.github.io/post-images/1591181903181.jpg" alt="" loading="lazy"></figure>
+<p>看到了<code>STRICT_TRANS_TABLES</code>（<em><strong>存储引擎启用严格模式，非法数据值被拒绝</strong></em>），按照之前找到的方法，这时候我只要关闭这个模式就OK了😬</p>
+<pre><code>SET sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://hsiaopan.github.io/post-images/1591182228887.jpg" alt="" loading="lazy"></figure>
+<p>查看下当前什么模式<br>
+<code>SHOW VARIABLES LIKE 'sql_mode';</code><br>
+<img src="https://hsiaopan.github.io/post-images/1591182315250.jpg" alt="" loading="lazy"></p>
+<p>看起来没问题😬<br>
+接着重新导入数据再看<br>
+<img src="https://hsiaopan.github.io/post-images/1591182527007.jpg" alt="" loading="lazy"></p>
+<p>😐没成功！？</p>
+<p>我陷入了沉思....</p>
+<p>换个地方试试？</p>
+<p>我打开<strong>Hyper</strong>（<em><strong>一款Terminal工具</strong></em>）</p>
+<pre><code>mysql -u root -p
+</code></pre>
+<pre><code>show variables like 'sql_mode';
+</code></pre>
+<figure data-type="image" tabindex="4"><img src="https://hsiaopan.github.io/post-images/1591182949678.jpg" alt="" loading="lazy"></figure>
+<p>wtf？😭<br>
+果然之前操作的没有成功，才导致导入数据失败！</p>
+<p>马不停蹄</p>
+<pre><code>set sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<p>再次检查一下模式是否设置成功</p>
+<figure data-type="image" tabindex="5"><img src="https://hsiaopan.github.io/post-images/1591183197489.jpg" alt="" loading="lazy"></figure>
+<p>ok！返回去重新导入数据，还是失败，模式修改不是全局的缘故？🤔<br>
+重新设置模式</p>
+<pre><code>set @@global.sql_mode='ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+</code></pre>
+<figure data-type="image" tabindex="6"><img src="https://hsiaopan.github.io/post-images/1591183518960.jpg" alt="" loading="lazy"></figure>
+<p>终于成功了😭</p>
+<p>愿所有人少走无谓的弯路。</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://hsiaopan.github.io/post/Data_Analysis_of_Job_Information_by_Excel/">
+              <h3 class="post-title">
+                下一篇：Excel数据分析——以招聘数据为例
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Hsiaopan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://hsiaopan.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ac08d9403c61be711e98',
+        clientSecret: '52c2ab4060334e92e2e3a6437bde7bbb231da18a',
+        repo: 'hsiaopan.github.io',
+        owner: 'hsiaopan',
+        admin: ['hsiaopan'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
