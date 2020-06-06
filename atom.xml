@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-03T11:41:05.332Z</updated>
+    <updated>2020-06-06T14:06:15.008Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -10,6 +10,91 @@
     <logo>https://hsiaopan.github.io/images/avatar.png</logo>
     <icon>https://hsiaopan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Panalyz</rights>
+    <entry>
+        <title type="html"><![CDATA[母婴产品消费数据分析]]></title>
+        <id>https://hsiaopan.github.io/post/mu-ying-chan-pin-xiao-fei-shu-ju-fen-xi/</id>
+        <link href="https://hsiaopan.github.io/post/mu-ying-chan-pin-xiao-fei-shu-ju-fen-xi/">
+        </link>
+        <updated>2020-06-03T06:56:03.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="分析目的">分析目的</h2>
+<ul>
+<li>了解母婴行业的发展趋势</li>
+<li>分析找到重点客户</li>
+<li>把握母婴产品主要使用对象</li>
+<li>分析各类商品特征</li>
+<li>找到受欢迎的母婴产品</li>
+</ul>
+<h2 id="理解数据">理解数据</h2>
+<p>数据来自淘宝和天猫上购买母婴商品，时间段为2012年7月2日——2015年2月5日<br>
+包含两个数据集，<br>
+tianchi_mum_baby.csv 包含客户孩子的生日和性别</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>birthday</th>
+<th>gender</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>客户ID</td>
+<td>生日</td>
+<td>性别</td>
+</tr>
+</tbody>
+</table>
+<p>tianchi_mum_baby_trade_history.csv 包含历史交易记录</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>auction_id</th>
+<th>cat_id</th>
+<th>cat1</th>
+<th>property</th>
+<th>buy_mount</th>
+<th>day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>商品ID</td>
+<td>客户ID</td>
+<td>商品子类ID</td>
+<td>商品大类ID</td>
+<td>商品属性</td>
+<td>购买数量</td>
+<td>交易时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据清洗">数据清洗</h2>
+<p>由于 <code>property</code> 列是对商品属性的描述，对后续分析几乎无作用，所以将其剔除。</p>
+<p>打开<strong>Navicat</strong>，连接<strong>MySQL</strong>，新建数据库 <code>Mum_Baby</code> ，相关参数如下：<br>
+<img src="https://hsiaopan.github.io/post-images/1591259315353.jpg" alt="" loading="lazy"></p>
+<p>在 <code>Mum_Baby</code> 数据库下的<strong>表</strong>里右键选择 <code>导入向导</code>，开始导入数据集<br>
+<img src="https://hsiaopan.github.io/post-images/1591259492864.jpg" alt="" loading="lazy"></p>
+<blockquote>
+<p>此处导入数据容易遇坑，我这次就遇上了，详情可查看另外一篇文章<br>
+<a href="https://hsiaopan.github.io/post/MySQL_ERR_1406/">MySQL导入数据 Data too long for column</a></p>
+</blockquote>
+<p>查询表 <code>mum_baby_trade_history</code> 记录数</p>
+<pre><code>SELECT COUNT(*) FROM mum_baby_trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code></p>
+<p>通过非chong'fu新建表 <code>trade_history</code> 并查询记录数</p>
+<pre><code>CREATE TABLE trade_history 
+SELECT DISTINCT * FROM mum_baby_trade_history;
+SELECT COUNT(*) FROM trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Python实现10大排序算法]]></title>
         <id>https://hsiaopan.github.io/post/Algorithm_of_Sorting_by_Python/</id>

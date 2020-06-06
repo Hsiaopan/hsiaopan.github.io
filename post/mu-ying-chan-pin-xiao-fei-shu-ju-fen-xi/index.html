@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Hello Gridea | Panalyz</title>
+<title>母婴产品消费数据分析 | Panalyz</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -86,51 +86,102 @@
       <div class="content-container">
         <div class="post-detail">
           
-            <div class="feature-container" style="background-image: url('https://hsiaopan.github.io/post-images/hello-gridea.png')">
-            </div>
-          
-          <h2 class="post-title">Hello Gridea</h2>
+          <h2 class="post-title">母婴产品消费数据分析</h2>
           <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2018-12-12</span>
-            
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://hsiaopan.github.io/tag/61_2pHOy5/">
-                    Gridea
-                    
-                  </a>
-                
-              </span>
+            <span><i class="icon-calendar-outline"></i> 2020-06-03</span>
             
           </div>
           <div class="post-content">
-            <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
+            <h2 id="分析目的">分析目的</h2>
+<ul>
+<li>了解母婴行业的发展趋势</li>
+<li>分析找到重点客户</li>
+<li>把握母婴产品主要使用对象</li>
+<li>分析各类商品特征</li>
+<li>找到受欢迎的母婴产品</li>
+</ul>
+<h2 id="理解数据">理解数据</h2>
+<p>数据来自淘宝和天猫上购买母婴商品，时间段为2012年7月2日——2015年2月5日<br>
+包含两个数据集，<br>
+tianchi_mum_baby.csv 包含客户孩子的生日和性别</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>birthday</th>
+<th>gender</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>客户ID</td>
+<td>生日</td>
+<td>性别</td>
+</tr>
+</tbody>
+</table>
+<p>tianchi_mum_baby_trade_history.csv 包含历史交易记录</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>auction_id</th>
+<th>cat_id</th>
+<th>cat1</th>
+<th>property</th>
+<th>buy_mount</th>
+<th>day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>商品ID</td>
+<td>客户ID</td>
+<td>商品子类ID</td>
+<td>商品大类ID</td>
+<td>商品属性</td>
+<td>购买数量</td>
+<td>交易时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据清洗">数据清洗</h2>
+<p>由于 <code>property</code> 列是对商品属性的描述，对后续分析几乎无作用，所以将其剔除。</p>
+<p>打开<strong>Navicat</strong>，连接<strong>MySQL</strong>，新建数据库 <code>Mum_Baby</code> ，相关参数如下：<br>
+<img src="https://hsiaopan.github.io/post-images/1591259315353.jpg" alt="" loading="lazy"></p>
+<p>在 <code>Mum_Baby</code> 数据库下的<strong>表</strong>里右键选择 <code>导入向导</code>，开始导入数据集<br>
+<img src="https://hsiaopan.github.io/post-images/1591259492864.jpg" alt="" loading="lazy"></p>
+<blockquote>
+<p>此处导入数据容易遇坑，我这次就遇上了，详情可查看另外一篇文章<br>
+<a href="https://hsiaopan.github.io/post/MySQL_ERR_1406/">MySQL导入数据 Data too long for column</a></p>
+</blockquote>
+<p>查询表 <code>mum_baby_trade_history</code> 记录数</p>
+<pre><code>SELECT COUNT(*) FROM mum_baby_trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code></p>
+<p>通过非chong'fu新建表 <code>trade_history</code> 并查询记录数</p>
+<pre><code>CREATE TABLE trade_history 
+SELECT DISTINCT * FROM mum_baby_trade_history;
+SELECT COUNT(*) FROM trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code></p>
 
           </div>
         </div>
 
         
+          <div class="next-post">
+            <a class="purple-link" href="https://hsiaopan.github.io/post/Algorithm_of_Sorting_by_Python/">
+              <h3 class="post-title">
+                下一篇：Python实现10大排序算法
+              </h3>
+            </a>
+          </div>
+          
       </div>
 
       
