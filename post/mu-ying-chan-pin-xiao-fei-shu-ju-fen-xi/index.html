@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1591452372256">
+<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1591717328945">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="site-header">
     <div class="left">
       <a href="https://hsiaopan.github.io">
-        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1591452372256" alt="" width="32px" height="32px">
+        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1591717328945" alt="" width="32px" height="32px">
       </a>
       <a href="https://hsiaopan.github.io">
         <h1 class="site-title">Panalyz</h1>
@@ -139,8 +139,8 @@ tianchi_mum_baby.csv 包含客户孩子的生日和性别</p>
 <tbody>
 <tr>
 <td>描述</td>
-<td>商品ID</td>
 <td>客户ID</td>
+<td>商品ID</td>
 <td>商品子类ID</td>
 <td>商品大类ID</td>
 <td>商品属性</td>
@@ -163,12 +163,110 @@ tianchi_mum_baby.csv 包含客户孩子的生日和性别</p>
 <pre><code>SELECT COUNT(*) FROM mum_baby_trade_history;
 </code></pre>
 <p>返回结果 <code>29971</code></p>
-<p>通过非chong'fu新建表 <code>trade_history</code> 并查询记录数</p>
+<p>通过非重复计数新建表 <code>trade_history</code> 并查询记录数</p>
 <pre><code>CREATE TABLE trade_history 
 SELECT DISTINCT * FROM mum_baby_trade_history;
 SELECT COUNT(*) FROM trade_history;
 </code></pre>
 <p>返回结果 <code>29971</code></p>
+<p>判断是否有NaN值</p>
+<pre><code>SELECT * FROM mum_baby_trade_history
+WHERE user_id IS NULL
+	OR auction_id IS NULL
+	OR cat_id IS NULL
+	OR cat1 IS NULL
+	OR buy_mount IS NULL
+	OR `day` IS NULL;
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591679091580.jpg" alt="" loading="lazy"><br>
+返回结果为空，说明没有NaN值</p>
+<p>判断是否有缺失值</p>
+<pre><code>SELECT * FROM mum_baby_trade_history
+WHERE user_id = ''
+	OR auction_id = ''
+	OR cat_id = ''
+	OR cat1 = ''
+	OR buy_mount = ''
+	OR `day` = '';
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591679268399.jpg" alt="" loading="lazy"><br>
+返回结果为空，说明无缺失值</p>
+<p>剔除错误信息</p>
+<pre><code>CREATE TABLE baby_birthday 
+SELECT * FROM mum_baby 
+WHERE gender = 0
+	OR gender = 1;
+</code></pre>
+<p><code>mum_baby</code> 表中 <code>gender</code> 存在一些值为 <strong>2</strong>，可能为错误信息，也可能是婴儿为出生时产生的订单，客户不能判断婴儿性别。<br>
+这里暂时将其剔除，同时新建一个表 <code>baby_birthday</code></p>
+<hr>
+<h2 id="数据分析">数据分析</h2>
+<blockquote>
+<p>以下分析，数据库操作部分通过Tableau的<code>自定义SQL</code>提取数据库表的，然后通过Tableau可视化</p>
+</blockquote>
+<h3 id="总体业绩分析">总体业绩分析</h3>
+<h4 id="母婴行业发展趋势及背景">母婴行业发展趋势及背景</h4>
+<pre><code>SELECT 
+	COUNT(DISTINCT user_id) AS 每年客户数,
+	COUNT(*) AS 每年订单数,
+	extract(YEAR FROM `day`) AS 年
+FROM
+	trade_history
+GROUP BY extract(YEAR FROM `day`)
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1591684871300.jpg" alt="" loading="lazy"></figure>
+<h4 id="母婴行业的淡季和旺季">母婴行业的淡季和旺季</h4>
+<p>取每月订单量进行对比</p>
+<pre><code>SELECT
+    count( DISTINCT user_id ) AS 每月客户数,
+    count( * ) AS 每月订单数,
+    extract( YEAR FROM `day` ) AS 年,
+    extract( MONTH FROM `day` ) AS 月 
+FROM
+    trade_history
+GROUP BY
+    extract( YEAR FROM `day` ),
+    extract( MONTH FROM `day` )
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://hsiaopan.github.io/post-images/1591686131407.jpg" alt="" loading="lazy"></figure>
+<p>根据月份统计订单量折线图，可以发现2013年与2014年趋势走向相似：<br>
+* 3-5月、8-11月呈正增长<br>
+* 6-7月、12-1月呈负增长<br>
+其中2月年度最低点，11月达到峰值。<br>
+筛选2013年和2014年，以订单量作盒须图，视订单量为前25%的月份为旺季，订单量后25%的月份为淡季，<br>
+<img src="https://hsiaopan.github.io/post-images/1591693119085.jpg" alt="" loading="lazy"><br>
+旺季：10、11、12月<br>
+淡季：1、2、7月</p>
+<h4 id="top10消费日">Top10消费日</h4>
+<pre><code>SELECT
+    EXTRACT( YEAR FROM `day` ) AS 年,
+    EXTRACT( MONTH FROM `day` ) AS 月,
+    EXTRACT( DAY FROM `day` ) AS 日,
+    EXTRACT( * ) AS 每日订单数,
+    EXTRACT( COUNT( * ) / 29971 * 100, 2 ) AS 总订单量占比 
+FROM
+    trade_history
+GROUP BY
+    EXTRACT( YEAR FROM `day` ),
+    EXTRACT( MONTH FROM `day` ),
+    EXTRACT( DAY FROM `day` ) 
+ORDER BY
+    COUNT( * ) DESC LIMIT 10
+</code></pre>
+<figure data-type="image" tabindex="3"><img src="https://hsiaopan.github.io/post-images/1591693705179.jpg" alt="" loading="lazy"></figure>
+<p>从泡泡图可以看出，双十一单日销量最高，其次是双十二。<br>
+没有看到2012年双十二，是因为双十二购物节始于2013年。</p>
+<h4 id="全年订单量最低月份">全年订单量最低月份</h4>
+<figure data-type="image" tabindex="4"><img src="https://hsiaopan.github.io/post-images/1591694057164.jpg" alt="" loading="lazy"></figure>
+<p>发现2月份每日订单量曲线在2013年和2014年差别很大。</p>
+<blockquote>
+<p>2013年的春节假期2月9日——2月15日，2014年春节假期1月30日——2月5日<br>
+所以订单量下降到回升，是因为春节节前至春节期间全国放假，物流停运，节日之后复工，订单量上升。</p>
+</blockquote>
+<h4 id="全年订单量最高月份">全年订单量最高月份</h4>
+<figure data-type="image" tabindex="5"><img src="https://hsiaopan.github.io/post-images/1591696703018.jpg" alt="" loading="lazy"></figure>
+<p>整个11月份的日订单量趋势特征非常明显，11.11日当日订单量占比整个11月总订单量20%左右，且比重逐年增加。说明双十一购物节受到广泛认同，且影响越来越大。</p>
+<h3 id="客户价值分析">客户价值分析</h3>
 
           </div>
         </div>
