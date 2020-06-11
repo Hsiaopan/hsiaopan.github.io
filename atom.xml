@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-11T02:35:19.770Z</updated>
+    <updated>2020-06-11T02:37:48.344Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -309,8 +309,8 @@ print(bucket_sort(list1, 50))
     </entry>
     <entry>
         <title type="html"><![CDATA[母婴产品消费数据分析(MySQL/Tableau)]]></title>
-        <id>https://hsiaopan.github.io/post/Analysis_of_Maternal&amp;Child_Products_by_MySQL&amp;Tableau/</id>
-        <link href="https://hsiaopan.github.io/post/Analysis_of_Maternal&amp;Child_Products_by_MySQL&amp;Tableau/">
+        <id>https://hsiaopan.github.io/post/Data_Analysis_of_Maternal&amp;Child_Products_by_MySQL&amp;Tableau/</id>
+        <link href="https://hsiaopan.github.io/post/Data_Analysis_of_Maternal&amp;Child_Products_by_MySQL&amp;Tableau/">
         </link>
         <updated>2020-05-22T06:56:03.000Z</updated>
         <summary type="html"><![CDATA[<p>Photo by Nynne Schrøder on Unsplash</p>
