@@ -1,0 +1,525 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+<meta charset="utf-8" >
+
+<title>母婴产品消费数据分析(MySQL/Tableau) | Panalyz</title>
+<meta name="description" content="温故而知新">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://hsiaopan.github.io/favicon.ico?v=1591842090333">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+      <div class="site-header-container">
+  <div class="site-header">
+    <div class="left">
+      <a href="https://hsiaopan.github.io">
+        <img class="avatar" src="https://hsiaopan.github.io/images/avatar.png?v=1591842090333" alt="" width="32px" height="32px">
+      </a>
+      <a href="https://hsiaopan.github.io">
+        <h1 class="site-title">Panalyz</h1>
+      </a>
+    </div>
+    <div class="right">
+      <transition name="fade">
+        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
+      </transition>
+    </div>
+  </div>
+</div>
+
+<transition name="fade">
+  <div class="menu-container" style="display: none;" v-show="menuVisible">
+    <div class="menu-list">
+      
+        
+          <a href="/" class="menu purple-link">
+            首页
+          </a>
+        
+      
+        
+          <a href="/archives" class="menu purple-link">
+            归档
+          </a>
+        
+      
+        
+          <a href="/tags" class="menu purple-link">
+            标签
+          </a>
+        
+      
+        
+          <a href="/post/about" class="menu purple-link">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+</transition>
+
+
+      <div class="content-container">
+        <div class="post-detail">
+          
+            <div class="feature-container" style="background-image: url('https://hsiaopan.github.io/post-images/Analysis_of_Maternal&amp;Child_Products_by_MySQL&amp;Tableau.jpg')">
+            </div>
+          
+          <h2 class="post-title">母婴产品消费数据分析(MySQL/Tableau)</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-05-22</span>
+            
+              <span>
+                <i class="icon-pricetags-outline"></i>
+                
+                  <a href="https://hsiaopan.github.io/tag/RSEh28qeb/">
+                    Tableau
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://hsiaopan.github.io/tag/CXmgL6ibh/">
+                    MySQL
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://hsiaopan.github.io/tag/KOeq5_TB-o/">
+                    数据分析
+                    
+                      ，
+                    
+                  </a>
+                
+                  <a href="https://hsiaopan.github.io/tag/rhXrkk_pnw/">
+                    练习
+                    
+                  </a>
+                
+              </span>
+            
+          </div>
+          <div class="post-content">
+            <p>Photo by Nynne Schrøder on Unsplash</p>
+<p>复刻知乎网友的分析，终点还是熟悉过程，练习MySQL和Tableau</p>
+<!-- more -->
+<h2 id="1-分析目的">1 分析目的</h2>
+<ul>
+<li>了解母婴行业的发展趋势</li>
+<li>分析找到重点客户</li>
+<li>把握母婴产品主要使用对象</li>
+<li>分析各类商品特征</li>
+<li>找到受欢迎的母婴产品</li>
+</ul>
+<h2 id="2-理解数据">2 理解数据</h2>
+<p>数据来自淘宝和天猫上购买母婴商品，时间段为2012年7月2日——2015年2月5日<br>
+包含两个数据集，<br>
+tianchi_mum_baby.csv 包含客户孩子的生日和性别</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>birthday</th>
+<th>gender</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>客户ID</td>
+<td>生日</td>
+<td>性别</td>
+</tr>
+</tbody>
+</table>
+<p>tianchi_mum_baby_trade_history.csv 包含历史交易记录</p>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>user_id</th>
+<th>auction_id</th>
+<th>cat_id</th>
+<th>cat1</th>
+<th>property</th>
+<th>buy_mount</th>
+<th>day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>描述</td>
+<td>客户ID</td>
+<td>商品ID</td>
+<td>商品子类ID</td>
+<td>商品大类ID</td>
+<td>商品属性</td>
+<td>购买数量</td>
+<td>交易时间</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-数据清洗">3 数据清洗</h2>
+<p>由于 <code>property</code> 列是对商品属性的描述，对后续分析几乎无作用，所以将其剔除。</p>
+<p>打开<strong>Navicat</strong>，连接<strong>MySQL</strong>，新建数据库 <code>Mum_Baby</code> ，相关参数如下：<br>
+<img src="https://hsiaopan.github.io/post-images/1591259315353.jpg" alt="" loading="lazy"></p>
+<p>在 <code>Mum_Baby</code> 数据库下的<strong>表</strong>里右键选择 <code>导入向导</code>，开始导入数据集<br>
+<img src="https://hsiaopan.github.io/post-images/1591259492864.jpg" alt="" loading="lazy"></p>
+<blockquote>
+<p>此处导入数据容易遇坑，我这次就遇上了，详情可查看另外一篇文章<br>
+<a href="https://hsiaopan.github.io/post/MySQL_ERR_1406/">MySQL导入数据 Data too long for column</a></p>
+</blockquote>
+<h3 id="31-删除重复值">3.1 删除重复值</h3>
+<p>查询表 <code>mum_baby_trade_history</code> 记录数</p>
+<pre><code>SELECT COUNT(*) FROM mum_baby_trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code></p>
+<p>通过非重复计数新建表 <code>trade_history</code> 并查询记录数</p>
+<pre><code>CREATE TABLE trade_history 
+SELECT DISTINCT * FROM mum_baby_trade_history;
+SELECT COUNT(*) FROM trade_history;
+</code></pre>
+<p>返回结果 <code>29971</code>，与直接查询结果相同，说明没有重复值</p>
+<h3 id="32-缺失值处理">3.2 缺失值处理</h3>
+<p>先判断是否有NaN值</p>
+<pre><code>SELECT * FROM mum_baby_trade_history
+WHERE user_id IS NULL
+	OR auction_id IS NULL
+	OR cat_id IS NULL
+	OR cat1 IS NULL
+	OR buy_mount IS NULL
+	OR `day` IS NULL;
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591679091580.jpg" alt="" loading="lazy"><br>
+返回结果为空，说明没有NaN值</p>
+<h3 id="33-空字符串处理">3.3 空字符串处理</h3>
+<p>先判断是否有缺失值</p>
+<pre><code>SELECT * FROM mum_baby_trade_history
+WHERE user_id = ''
+	OR auction_id = ''
+	OR cat_id = ''
+	OR cat1 = ''
+	OR buy_mount = ''
+	OR `day` = '';
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591679268399.jpg" alt="" loading="lazy"><br>
+返回结果为空，说明无缺失值</p>
+<h3 id="34-错误信息处理">3.4 错误信息处理</h3>
+<p><code>mum_baby</code> 表中 <code>gender</code> 存在一些值为 <strong>2</strong>，可能为错误信息，也可能是婴儿为出生时产生的订单，客户不能判断婴儿性别。</p>
+<pre><code>CREATE TABLE baby_birthday 
+SELECT * FROM mum_baby 
+WHERE gender = 0
+	OR gender = 1;
+</code></pre>
+<p>这里暂时将其剔除，同时新建一个表 <code>baby_birthday</code></p>
+<h2 id="4-数据分析">4 数据分析</h2>
+<blockquote>
+<p>以下分析，数据库操作部分通过Tableau的<code>自定义SQL</code>提取数据库表的，然后通过Tableau可视化</p>
+</blockquote>
+<h3 id="41-总体业绩分析">4.1 总体业绩分析</h3>
+<h4 id="411-母婴行业发展趋势及背景">4.1.1 母婴行业发展趋势及背景</h4>
+<pre><code>SELECT 
+	COUNT(DISTINCT user_id) AS 每年客户数,
+	COUNT(*) AS 每年订单数,
+	extract(YEAR FROM `day`) AS 年
+FROM
+	trade_history
+GROUP BY extract(YEAR FROM `day`)
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591684871300.jpg" alt="" loading="lazy"><br>
+根据2012年——2015年每年订单量柱形图，发现2014年全年订单量相较2013年增长超过50%。<br>
+注：2012年和2015年数据不是全年数据，无法参与对比。</p>
+<p>尝试通过<strong>PEST</strong>方法进行初步分析增长原因。<br>
+<strong>PEST</strong>（Political、Economic、Social、Technological）分析模型是环境分析的一种方法，通过对政治、经济、社会、技术四方面的若干影响因素进行总结和列出相对关键和重要的影响因素。</p>
+<ul>
+<li><strong>政治因素</strong>：2013年12月28日，《关于调整完善生育政策的决议》通过，一方是独立子女的夫妇可生育两个孩子的单独二孩政策依法启动实施。政策的放宽，意味着符合条件的家庭可以生育二孩，对母婴市场是利好政策。</li>
+<li><strong>经济因素</strong>：首先是中国人均GDP这几年稳步增长，国民的消费水平也同步提高；其次是2014年互联网企业赴美IPO，京东、阿里均在美国上市。</li>
+<li><strong>社会因素</strong>：其一，国家对优生优育的宣传持续力度加大；其二，这几年新出生人口基数大，1600余万，且有小幅增长。</li>
+<li><strong>技术因素</strong>：母婴产品多样化，这些都是技术进步带来的。</li>
+</ul>
+<p>从以上PEST模型中，对增长影响较大的因素，推断为政策因素（独立二孩）和社会因素（优生优育和人口基数大）。</p>
+<h4 id="412-母婴行业的淡季和旺季">4.1.2 母婴行业的淡季和旺季</h4>
+<p>取每月订单量进行对比</p>
+<pre><code>SELECT
+    count( DISTINCT user_id ) AS 每月客户数,
+    count( * ) AS 每月订单数,
+    extract( YEAR FROM `day` ) AS 年,
+    extract( MONTH FROM `day` ) AS 月 
+FROM
+    trade_history
+GROUP BY
+    extract( YEAR FROM `day` ),
+    extract( MONTH FROM `day` )
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://hsiaopan.github.io/post-images/1591686131407.jpg" alt="" loading="lazy"></figure>
+<p>根据月份统计订单量折线图，可以发现2013年与2014年趋势走向相似：<br>
+* 3-5月、8-11月呈正增长<br>
+* 6-7月、12-1月呈负增长<br>
+其中2月年度最低点，11月达到峰值。<br>
+筛选2013年和2014年，以订单量作盒须图，视订单量为前25%的月份为旺季，订单量后25%的月份为淡季<br>
+<img src="https://hsiaopan.github.io/post-images/1591693119085.jpg" alt="" loading="lazy"><br>
+* 旺季：10、11、12月<br>
+* 淡季：1、2、7月</p>
+<h4 id="413-top10消费日">4.1.3 Top10消费日</h4>
+<p>提取订单量前十的日期</p>
+<pre><code>SELECT
+    EXTRACT( YEAR FROM `day` ) AS 年,
+    EXTRACT( MONTH FROM `day` ) AS 月,
+    EXTRACT( DAY FROM `day` ) AS 日,
+    EXTRACT( * ) AS 每日订单数
+FROM
+    trade_history
+GROUP BY
+    EXTRACT( YEAR FROM `day` ),
+    EXTRACT( MONTH FROM `day` ),
+    EXTRACT( DAY FROM `day` ) 
+ORDER BY
+    COUNT( * ) DESC LIMIT 10
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://hsiaopan.github.io/post-images/1591693705179.jpg" alt="" loading="lazy"></figure>
+<p>从泡泡图可以看出，双十一单日销量最高，其次是双十二。<br>
+没有看到2012年双十二，是因为双十二购物节始于2013年。</p>
+<h4 id="414-全年订单量最低月份">4.1.4 全年订单量最低月份</h4>
+<p>筛选2013年2月和2014年2月每日订单量做折线图对比</p>
+<figure data-type="image" tabindex="3"><img src="https://hsiaopan.github.io/post-images/1591694057164.jpg" alt="" loading="lazy"></figure>
+<p>折线图呈现出该月每日订单量曲线在2013年和2014年差别很大，分析原因可能是过年期间全国放假时间不同导致。</p>
+<blockquote>
+<p>2013年的春节假期2月9日——2月15日，2014年春节假期1月30日——2月5日<br>
+所以订单量下降到回升，是因为春节节前至春节期间全国放假，物流停运，节日之后复工，订单量上升。</p>
+</blockquote>
+<h4 id="415-全年订单量最高月份">4.1.5 全年订单量最高月份</h4>
+<p>筛选2012年、2013年、2014年的11月份做折线图对比<br>
+<img src="https://hsiaopan.github.io/post-images/1591696703018.jpg" alt="" loading="lazy"></p>
+<p>整个11月份的日订单量趋势特征非常明显，11.11日当日订单量占比整个11月总订单量20%左右，且比重逐年增加。说明双十一购物节受到广泛认同，且影响越来越大。</p>
+<h3 id="42-客户价值分析">4.2 客户价值分析</h3>
+<h4 id="421-用户回购率">4.2.1 用户回购率</h4>
+<p>根据不同购买次数来统计客户量</p>
+<pre><code>SELECT 
+    COUNT(user_id) AS 购买次数,
+    user_id
+FROM
+    trade_history
+GROUP BY
+    user_id
+</code></pre>
+<p><img src="https://hsiaopan.github.io/post-images/1591723173572.jpg" alt="" loading="lazy"><br>
+只有25名客户有复购（购买次数大于1次）行为，回购率仅为0.083%，用户粘度极低。</p>
+<h4 id="422-母婴市场主要消费人群">4.2.2 母婴市场主要消费人群</h4>
+<p>根据有复购行为的客户最后一次消费时间节点，老客户订单量与当月订单量对比</p>
+<ul>
+<li>提取最近消费时间</li>
+</ul>
+<pre><code>SELECT
+    user_id,
+    MAX(`day`) AS 最近消费时间
+FROM
+    trade_history
+GROUP BY
+    user_id
+ORDER BY
+    MAX(`day`) DESC
+</code></pre>
+<ul>
+<li>提取消费频次大于1的客户信息</li>
+</ul>
+<pre><code>SELECT 
+    user_id
+FROM
+    trade_history
+GROUP BY
+    user_id
+HAVING COUNT(user_id) &gt; 1
+</code></pre>
+<ul>
+<li>将二者联接</li>
+</ul>
+<figure data-type="image" tabindex="4"><img src="https://hsiaopan.github.io/post-images/1591717427781.jpg" alt="" loading="lazy"></figure>
+<p>前面的分析已经知道母婴产品市场的回购率很低，大部分客户都是一次消费。在有回购的客户中，有5名客户在2015年1月进行了复购，而当月总计客户数为1314位，由此看出母婴市场主要还是依靠源源不断的新客户。</p>
+<h3 id="43-用户指标">4.3 用户指标</h3>
+<p>将 <code>baby_birthday</code> 与 <code>trade_history</code> 表联结</p>
+<blockquote>
+<p>前面提到婴儿生日性别表里有 <code>gender</code> 为 <strong>2</strong> 的数据，此处将其剔除，选用剔除之后的婴儿生日性别表 <code>baby_birthday</code></p>
+</blockquote>
+<h4 id="431-用户性别对比">4.3.1 用户性别对比</h4>
+<p><img src="https://hsiaopan.github.io/post-images/1591762832195.jpg" alt="" loading="lazy"><br>
+930个用户中，男女比例差距很小，男生比例只比女生多6%</p>
+<h4 id="432-目标用户年龄段">4.3.2 目标用户年龄段</h4>
+<p>将用户根据年龄分成6个阶段，在Tableau里新建度量命名 <code>年龄段</code>：</p>
+<pre><code>IF (DATEDIFF('year',[birthday],[day])) &gt;= 6 THEN '学龄期'
+ELSEIF (DATEDIFF('year',[birthday],[day])) &gt;= 3  THEN '学龄前期'
+ELSEIF (DATEDIFF('year',[birthday],[day])) &gt;= 1  THEN '幼儿期'
+ELSEIF (DATEDIFF('year',[birthday],[day])) &gt;= 0  THEN '婴儿期'
+ELSEIF (DATEDIFF('month',[birthday],[day])) &gt;= -10 THEN '胎儿期'
+ELSE '备孕期'
+END
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://hsiaopan.github.io/post-images/1591763253106.jpg" alt="" loading="lazy"></figure>
+<p>可以看出婴儿期和幼儿期，既0-3岁的宝宝是母婴市场占比最大的用户群。有一部分客户在婴儿未出生就开始准备母婴用品，3岁之后需求量开始下降。</p>
+<h3 id="44-商品类指标">4.4 商品类指标</h3>
+<h4 id="441-商品特征">4.4.1 商品特征</h4>
+<p>添加新自定义SQL，提取每个商品大类对应商品子类数量，</p>
+<pre><code>SELECT
+    cat1 '商品大类',
+    COUNT(distinct cat_id) '子类数量'
+FROM
+    trade_history
+GROUP BY
+    cat1
+</code></pre>
+<p>添加自定义SQL，提取商品大类对应订单量</p>
+<pre><code>SELECT
+    cat1 '商品大类',
+    COUNT(cat1) '大类订单量'
+FROM
+    trade_history
+GROUP BY
+    cat1
+</code></pre>
+<p>为了获取每个商品大类下子类的订单量，需要再添加 <code>trade——history</code>，将他们联结<br>
+<img src="https://hsiaopan.github.io/post-images/1591775745136.jpg" alt="" loading="lazy"></p>
+<figure data-type="image" tabindex="6"><img src="https://hsiaopan.github.io/post-images/1591774885749.jpg" alt="" loading="lazy"></figure>
+<p>根据上表数据和条形图，可以发现商品特征如下：</p>
+<ul>
+<li>销量最好，产品种类一般：<code>5008168</code></li>
+<li>销量一般，产品种类丰富：<code>28</code>、<code>50014815</code></li>
+<li>销量较低，产品种类丰富：<code>50022520</code></li>
+<li>销量极低，产品种类较少：<code>122650008</code>、<code>38</code></li>
+</ul>
+<p><img src="https://hsiaopan.github.io/post-images/1591774897592.jpg" alt="" loading="lazy"><br>
+根据上面各类商品及子类订单量条形图绘制的箱线图，以此箱线图可知：</p>
+<ul>
+<li>商品大类 <code>5008168</code> 的中位数仅为33，但由于6款爆款产品以及销量大部分高于中位数的商品，使得 <code>5008168</code> 的总体销量位居第一</li>
+<li>商品大类 <code>28</code> 的中位数更低，仅为8，且聚集度高，说明大量的产品销量不好，使得该类产品总体单量表现一般</li>
+<li>商品大类 <code>50014815</code> 中位数为12，情况与 <code>28</code> 类似。</li>
+<li>商品大类 <code>50022520</code> 中位数为5，且聚集度高，且无表现突出产品，但因种类繁多，总体单量变现不至于最差</li>
+<li>商品大类 <code>122650008</code> 中位数为30，上四分位达到203，超过总体销量排名第一的 <code>5008168</code>，可以看出前25%得商品在婴幼儿市场中的受欢迎程度很高，但因产品种类少，虽然总体单量表现不佳</li>
+<li>商品大类 <code>122650008</code> 中位数仅为9，且聚集度高，而且产品种类少，其中单子类 <code>211122</code> 达到该类别总量的41.73%</li>
+</ul>
+<h4 id="442-最受欢迎的商品">4.4.2 最受欢迎的商品</h4>
+<p>根据各个商品大类，分别选出最受欢迎产品，可以通过树状图展示<br>
+<img src="https://hsiaopan.github.io/post-images/1591781647428.jpg" alt="" loading="lazy"></p>
+<h2 id="5-总结">5 总结</h2>
+<ul>
+<li>互联网时代大背景下，电商平台为人们购物选择提供了极大便利，技术进步为产品的更迭创新提供支撑，优生优育的观念之下，母婴产品的需求变得大且广，仅2014年对比2013年，订单量即完成了50%以上的增长</li>
+<li>每年10-12月为母婴行业的旺季，购物节（双十一、双十二）尤为火爆，卖家需要针对这段时间指定相应的活动方案，并且提前预热宣传，提升店铺曝光量，吸纳更多新客户</li>
+<li>在长达两年半的时间段内，仅有回购客户占比不足0.1%，说明母婴行业内客户粘性非常低，针对这一现象，可进行两方面准备：其一，通过一些手段，诸如会员制、积分制、累积购物优惠、分享或邀请有礼等方式是新客户变成老客户，突破二次消费；其二，服从客观规律，加大曝光率，吸引更多的新客户</li>
+<li>0-3岁的宝宝是母婴市场占比最大的用户群，增加在这个客户群体对应产品的开发，进一步提升客户消费量</li>
+<li>每种品类里都有爆款产品，销售量都远比同类其他产品高，可以尝试多打造爆款，提升整个品类的销量。</li>
+</ul>
+<!-- more -->
+<p>『此文复现 https://zhuanlan.zhihu.com/p/68105677 侵删』</p>
+
+          </div>
+        </div>
+
+        
+          <div class="next-post">
+            <a class="purple-link" href="https://hsiaopan.github.io/post/MySQL_ERR_1406/">
+              <h3 class="post-title">
+                下一篇：MySQL导入数据 Data too long for column
+              </h3>
+            </a>
+          </div>
+          
+      </div>
+
+      
+        
+          <div id="gitalk-container"></div>
+        
+
+        
+      
+
+      <div class="site-footer">
+  <div class="slogan">温故而知新</div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/Hsiaopan" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://hsiaopan.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+
+    </div>
+    <script type="application/javascript">
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ac08d9403c61be711e98',
+        clientSecret: '52c2ab4060334e92e2e3a6437bde7bbb231da18a',
+        repo: 'hsiaopan.github.io',
+        owner: 'hsiaopan',
+        admin: ['hsiaopan'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
