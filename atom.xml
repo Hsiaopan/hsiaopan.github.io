@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-14T18:08:52.099Z</updated>
+    <updated>2020-06-14T18:09:25.968Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -20,6 +20,7 @@
 ]]></summary>
         <content type="html"><![CDATA[<p>待补充完善</p>
 <!-- more -->
+<p>Photo by Nassim All on Unsplash</p>
 <h3 id="1-激活率和激活且登录率">1 激活率和激活且登录率</h3>
 <h4 id="11-激活">1.1 激活</h4>
 <p>激活是指用户安装好客户端以后连接网络打开客户端</p>
