@@ -5,7 +5,7 @@
     
 <meta charset="utf-8" >
 
-<title>Gridea | Panalyz</title>
+<title>游戏运营数据分析——核心指标 | Panalyz</title>
 <meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,6 +16,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://hsiaopan.github.io/styles/main.css">
 
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
 
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -78,55 +84,42 @@
 
 
       <div class="content-container">
+        <div class="post-detail">
+          
+          <h2 class="post-title">游戏运营数据分析——核心指标</h2>
+          <div class="post-info post-detail-info">
+            <span><i class="icon-calendar-outline"></i> 2020-06-12</span>
+            
+          </div>
+          <div class="post-content">
+            <h3 id="1-激活率和激活且登录率">1 激活率和激活且登录率</h3>
+<h4 id="11-激活用户安装好客户端以后连接网络打开客户端">1.1 激活：用户安装好客户端以后连接网络打开客户端</h4>
+<ul>
+<li><strong>激活率</strong>：激活总量/安装总量</li>
+</ul>
+<h4 id="12">1.2</h4>
 
-        <div class="current-tag-container">
-          <h2 class="title">
-            <i class="icon icon-pricetags-outline"></i> Gridea
-          </h2> 
+          </div>
         </div>
 
         
-<section class="post-item">
-    <div class="content">
-      <a href="https://hsiaopan.github.io/post/hello-gridea/">
-        <h2 class="post-title">Hello Gridea</h2>
-      </a>
-      <div class="post-abstract">
-        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
+          <div class="next-post">
+            <a class="purple-link" href="https://hsiaopan.github.io/post/Algorithm_of_Sorting_by_Python/">
+              <h3 class="post-title">
+                下一篇：Python实现10大排序算法
+              </h3>
+            </a>
+          </div>
+          
       </div>
-      <div class="post-info">
-        <span><i class="icon icon-calendar-outline"></i> 2018-12-12</span>
+
+      
         
-          <span>
-            <i class="icon icon-pricetags-outline"></i>
-            
-              <a href="https://hsiaopan.github.io/tag/61_2pHOy5/">
-                Gridea
-                
-              </a>
-            
-          </span>
+          <div id="gitalk-container"></div>
         
-      </div>
-    </div>
-    
-      <a href="https://hsiaopan.github.io/post/hello-gridea/">
-        <div class="feature-container" style="background-image: url('https://hsiaopan.github.io/post-images/hello-gridea.png')">
-        </div>
-      </a>
-    
-  </section>
 
-
-<div class="pagination-container">
-  
-  
-</div>
-
-
-      </div>
+        
+      
 
       <div class="site-footer">
   <div class="slogan">温故而知新</div>
@@ -164,6 +157,29 @@ var app = new Vue({
 })
 
 </script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'ac08d9403c61be711e98',
+        clientSecret: '52c2ab4060334e92e2e3a6437bde7bbb231da18a',
+        repo: 'hsiaopan.github.io',
+        owner: 'hsiaopan',
+        admin: ['hsiaopan'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
 
 
 
