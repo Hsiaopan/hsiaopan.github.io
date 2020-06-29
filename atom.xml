@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://hsiaopan.github.io</id>
     <title>Panalyz</title>
-    <updated>2020-06-14T18:09:25.968Z</updated>
+    <updated>2020-06-29T10:16:43.581Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://hsiaopan.github.io"/>
     <link rel="self" href="https://hsiaopan.github.io/atom.xml"/>
@@ -10,6 +10,112 @@
     <logo>https://hsiaopan.github.io/images/avatar.png</logo>
     <icon>https://hsiaopan.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Panalyz</rights>
+    <entry>
+        <title type="html"><![CDATA[MacOS通过终端SSH连接腾讯云服务器]]></title>
+        <id>https://hsiaopan.github.io/post/macos-tong-guo-zhong-duan-ssh-lian-jie-teng-xun-yun-fu-wu-qi/</id>
+        <link href="https://hsiaopan.github.io/post/macos-tong-guo-zhong-duan-ssh-lian-jie-teng-xun-yun-fu-wu-qi/">
+        </link>
+        <updated>2020-06-29T09:38:00.000Z</updated>
+        <content type="html"><![CDATA[<p>通过SSH连接云服务器</p>
+<ul>
+<li>
+<p>创建SSH密匙对<br>
+在云服务器左侧菜单栏，点击<strong>SSH密匙</strong>，可以创建密匙</p>
+</li>
+<li>
+<p>绑定实例，下载私钥文件</p>
+</li>
+<li>
+<p>创建 <code>~/.ssh</code> 目录，用来存放密匙文件</p>
+<pre><code>cd
+mkdir .ssh
+</code></pre>
+</li>
+<li>
+<p>将私钥文件移动到 <code>~/.ssh</code> 文件夹内</p>
+</li>
+<li>
+<p>修改私钥文件权限，赋予私钥文件仅本人可读权限</p>
+<pre><code>chmod 400 &lt;私钥文件绝对路径&gt; 
+</code></pre>
+</li>
+<li>
+<p>在 <code>~/.ssh</code> 下创建 <code>config</code> 文件，内容如下，并保存</p>
+<pre><code>Host Tencent               // 实例名称，可自定义
+HostName 192.*.*.*          // 服务器IP
+User root                   // 输入登录账号
+Port 22                     // 输入端口号，默认22
+IdentityFile ~/.ssh/Tencent //输入私钥文件绝对路径
+</code></pre>
+</li>
+<li>
+<p>运行命令连接至实例</p>
+<pre><code>ssh Tencent
+</code></pre>
+</li>
+</ul>
+<hr>
+<p>如出现如下提示</p>
+<blockquote>
+<p>“REMOTE HOST IDENTIFICATION HAS CHANGED! ”<br>
+<br>
+出现这个问题的原因是公钥对不上，<code>~/.ssh/know_hosts</code> 文件里存在同IP的旧密钥，清理掉重新连接服务器即可解决。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Anaconda管理|conda clean清理命令汇总]]></title>
+        <id>https://hsiaopan.github.io/post/anaconda-guan-li-orconda-clean-qing-li-ming-ling-hui-zong/</id>
+        <link href="https://hsiaopan.github.io/post/anaconda-guan-li-orconda-clean-qing-li-ming-ling-hui-zong/">
+        </link>
+        <updated>2020-06-26T11:05:49.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>Remove unused packages and caches.</strong><br>
+<code>conda clean</code> 用来清理没有用到的packages和caches</p>
+<p>先查看下帮助</p>
+<pre><code>➜ conda clean --help
+usage: conda clean [-h] [-a] [-i] [-p] [-t] [-f]
+                   [-c TEMPFILES [TEMPFILES ...]] [-d] [--json] [-q] [-v] [-y]
+
+Remove unused packages and caches.
+
+Options:
+
+optional arguments:
+  -h, --help            Show this help message and exit.
+
+Removal Targets:
+  -a, --all             Remove index cache, lock files, unused cache packages,
+                        and tarballs.
+  -i, --index-cache     Remove index cache.
+  -p, --packages        Remove unused packages from writable package caches.
+                        WARNING: This does not check for packages installed
+                        using symlinks back to the package cache.
+  -t, --tarballs        Remove cached package tarballs.
+  -f, --force-pkgs-dirs
+                        Remove *all* writable package caches. This option is
+                        not included with the --all flag. WARNING: This will
+                        break environments with packages installed using
+                        symlinks back to the package cache.
+  -c TEMPFILES [TEMPFILES ...], --tempfiles TEMPFILES [TEMPFILES ...]
+                        Remove temporary files that could not be deleted
+                        earlier due to being in-use. Argument is path(s) to
+                        prefix(es) where files should be found and removed.
+
+Output, Prompt, and Flow Control Options:
+  -d, --dry-run         Only display what would have been done.
+  --json                Report all output as json. Suitable for using conda
+                        programmatically.
+  -q, --quiet           Do not display progress bar.
+  -v, --verbose         Can be used multiple times. Once for INFO, twice for
+                        DEBUG, three times for TRACE.
+  -y, --yes             Do not ask for confirmation.
+
+Examples:
+
+    conda clean --tarballs
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[游戏运营数据分析——指标体系]]></title>
         <id>https://hsiaopan.github.io/post/Game_Data_Analysis_of_Operation_Metrics/</id>
